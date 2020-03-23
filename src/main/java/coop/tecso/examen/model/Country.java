@@ -1,8 +1,10 @@
 package coop.tecso.examen.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "COUNTRY")
 public class Country extends AbstractPersistentObject {
 
 	private static final long serialVersionUID = -8901155893511467206L;
