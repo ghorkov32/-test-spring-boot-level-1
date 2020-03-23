@@ -1,18 +1,50 @@
 package coop.tecso.examen.model;
 
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency;
-import org.joda.money.Money;
+import coop.tecso.examen.enums.Currency;
+import coop.tecso.examen.enums.converter.CurrencyTypeConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@TypeDef(name = "MoneyAmountWithCurrencyType", typeClass = PersistentMoneyAmountAndCurrency.class)
+@Table(name = "CHECKING_ACCOUNT")
 public class CheckingAccount extends AbstractPersistentObject {
-    @Columns(columns = { @Column(name = "BALANCE_CURRENCY"), @Column(name = "BALANCE_AMOUNT") })
-    @Type(type="moneyAmountWithCurrencyType")
-    private Money balance;
+
+    @Column(name = "CURRENCY")
+    @NotNull
+    @Convert(converter = CurrencyTypeConverter.class)
+    private Currency currency;
+
+    @NotNull
+    @Column(name = "BALANCE", columnDefinition="Decimal(12,2) default '0.00'")
+    private BigDecimal balance;
+
+    @OneToMany(mappedBy = "checkingAccount")
+    private List<Movement> movements;
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public List<Movement> getMovements() {
+        return movements;
+    }
+
+    public void setMovements(List<Movement> movements) {
+        this.movements = movements;
+    }
 }
