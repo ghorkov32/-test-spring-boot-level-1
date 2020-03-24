@@ -8,6 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Checking account entity
+ *
+ * Has currency, balance, and movements list sorted in descending order by @Order annotation
+ */
 @Entity
 @Table(name = "CHECKING_ACCOUNT")
 public class CheckingAccount extends AbstractPersistentObject {
