@@ -13,6 +13,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+/**
+ * Movement entity
+ *
+ * Has date, description, amount, and the checking account id which this movement belongs
+ */
 @Entity
 @Table(name = "MOVEMENTS")
 public class Movement extends AbstractPersistentObject {

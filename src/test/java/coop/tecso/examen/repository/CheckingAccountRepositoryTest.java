@@ -2,7 +2,6 @@ package coop.tecso.examen.repository;
 
 import coop.tecso.examen.enums.Currency;
 import coop.tecso.examen.model.CheckingAccount;
-import coop.tecso.examen.model.Country;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

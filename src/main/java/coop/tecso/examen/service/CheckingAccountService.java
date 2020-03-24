@@ -6,6 +6,9 @@ import coop.tecso.examen.model.Movement;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Interface for service implementing all necessary methods to handle checking accounts
+ */
 public interface CheckingAccountService {
 
     CheckingAccount createCheckingAccount(CheckingAccount checkingAccount);

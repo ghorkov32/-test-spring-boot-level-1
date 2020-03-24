@@ -27,22 +27,44 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
         this.movementsRepository = movementsRepository;
     }
 
+    /**
+     * Creates a checking account from entity object
+     * @param checkingAccount   checking account to create
+     * @return                  persisted checking account
+     */
     @Override
     public CheckingAccount createCheckingAccount(CheckingAccount checkingAccount) {
         return checkingAccountRepository.save(checkingAccount);
     }
 
+    /**
+     * Finds a checking account by id
+     * @param id    id for checking account to find
+     * @return      checking account found
+     * @throws NoSuchElementException   when no checking account with given id is found
+     */
     @Override
     public CheckingAccount findById(Long id) throws NoSuchElementException {
         return checkingAccountRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
 
+    /**
+     * Retrieves all checking accounts
+     * @return  list of checking accounts
+     */
     @Override
     public List<CheckingAccount> findAll() {
         return checkingAccountRepository.findAll();
     }
 
+    /**
+     * Adds a movement to checking account, checking overdraft limit prior save
+     * @param id            checking account to add movement
+     * @param movement      movement to add
+     * @throws NoSuchElementException       when no checking account with given id is found
+     * @throws IllegalArgumentException     when overdraft is surpassed according to the limit given by the currency
+     */
     @Override
     public void addMovementToCheckingAccountById(Long id, Movement movement)
             throws NoSuchElementException, IllegalArgumentException {
@@ -52,10 +74,16 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
         checkingAccount.getMovements().add(movement);
         checkingAccount.setBalance(checkingAccount.getBalance().add(movement.getAmount()));
         if(checkingAccount.getBalance().compareTo(Currency.getLimit(checkingAccount.getCurrency())) <= 0)
-            throw new IllegalArgumentException("Movement amount surpasses overdraft limit, balance: " + checkingAccount.getBalance().toString());
+            throw new IllegalArgumentException("Movement amount surpasses overdraft limit");
         checkingAccountRepository.save(checkingAccount);
     }
 
+    /**
+     * Deletes account with given id
+     * @param id    id for the checking account to remove
+     * @throws NoSuchElementException   when checking account with given id is not found
+     * @throws IllegalStateException    when checking account has movements
+     */
     @Override
     public void deleteAccount(Long id) throws NoSuchElementException, IllegalStateException {
         CheckingAccount checkingAccount = findById(id);
@@ -64,6 +92,11 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
         checkingAccountRepository.delete(checkingAccount);
     }
 
+    /**
+     * Gets sorted movements for the given account
+     * @param id    id for the checking account to get the movements
+     * @return      list of movements sorted in descending order
+     */
     @Override
     public List<Movement> getMovementsByCheckingAccountId(Long id) {
         return movementsRepository.findAllByCheckingAccountOrderByDateDesc(findById(id));
