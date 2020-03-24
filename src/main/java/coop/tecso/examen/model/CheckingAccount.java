@@ -21,7 +21,8 @@ public class CheckingAccount extends AbstractPersistentObject {
     @Column(name = "BALANCE", columnDefinition="Decimal(12,2) default '0.00'")
     private BigDecimal balance;
 
-    @OneToMany(mappedBy = "checkingAccount")
+    @OneToMany(mappedBy = "checkingAccount", fetch = FetchType.LAZY)
+    @OrderBy(value = "date desc")
     private List<Movement> movements;
 
     public Currency getCurrency() {
