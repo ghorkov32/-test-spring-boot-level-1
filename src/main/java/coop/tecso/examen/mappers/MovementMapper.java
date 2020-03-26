@@ -2,6 +2,7 @@ package coop.tecso.examen.mappers;
 
 import coop.tecso.examen.dto.MovementDTO;
 import coop.tecso.examen.model.Movement;
+import org.joda.time.DateTime;
 
 public class MovementMapper {
 
@@ -9,7 +10,7 @@ public class MovementMapper {
         Movement movement = new Movement();
         movement.setDescription(dto.getDescription());
         movement.setAmount(dto.getAmount());
-        movement.setDate(dto.getDate());
+        movement.setDate(new DateTime(dto.getDate()));
         movement.setId(dto.getId());
         return movement;
     }
@@ -17,7 +18,7 @@ public class MovementMapper {
     public static MovementDTO toDTO(Movement movement){
         MovementDTO movementDTO = new MovementDTO();
         movementDTO.setAmount(movement.getAmount());
-        movementDTO.setDate(movement.getDate());
+        movementDTO.setDate(movement.getDate().toDate());
         movementDTO.setDescription(movement.getDescription());
         movementDTO.setId(movement.getId());
         return movementDTO;

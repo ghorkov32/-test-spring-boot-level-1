@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/ghorkov32/-test-spring-boot-level-1.svg?branch=master)](https://travis-ci.org/ghorkov32/-test-spring-boot-level-1)
-[![Coverage Status](https://coveralls.io/repos/github/ghorkov32/-test-spring-boot-level-1/badge.svg?branch=feature/code-coverage)](https://coveralls.io/github/ghorkov32/-test-spring-boot-level-1?branch=feature/code-coverage)
+[![Coverage Status](https://coveralls.io/repos/github/ghorkov32/-test-spring-boot-level-1/badge.svg?branch=master)](https://coveralls.io/github/ghorkov32/-test-spring-boot-level-1?branch=master)
 
 Herramientas necesarias:
 

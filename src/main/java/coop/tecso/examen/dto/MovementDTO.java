@@ -1,15 +1,21 @@
 package coop.tecso.examen.dto;
 
-import org.joda.time.DateTime;
-
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.DateTimeException;
+import java.util.Date;
 
 public class MovementDTO {
     private Long id;
+    @NotNull
     private BigDecimal amount;
+    @NotNull
     private String description;
-    private DateTime date;
+    @NotNull
+    private Date date;
+
+    public MovementDTO() {
+    }
+
 
     public Long getId() {
         return id;
@@ -35,11 +41,11 @@ public class MovementDTO {
         this.description = description;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }
