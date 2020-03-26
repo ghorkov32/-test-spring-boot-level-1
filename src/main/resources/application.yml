@@ -3,7 +3,7 @@ server:
   servlet.context-path: /api
 
 spring:
-  profiles.active: dev
+  profiles.active: qa
   application.name: ExamenTecso
       
 ---

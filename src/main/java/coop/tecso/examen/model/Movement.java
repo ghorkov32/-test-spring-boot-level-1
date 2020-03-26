@@ -23,17 +23,16 @@ public class Movement extends AbstractPersistentObject {
     @NotNull
     private DateTime date;
 
-    @Column(name="MOVEMENT_DESCRIPTION")
+    @Column(name = "MOVEMENT_DESCRIPTION")
     @NotNull
     private String description;
 
-    @Column(name = "AMOUNT", columnDefinition="Decimal(12,2)")
+    @Column(name = "AMOUNT", columnDefinition = "Decimal(12,2)")
     @NotNull
     private BigDecimal amount;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "CHECKING_ACCOUNT_ID", nullable = false)
-    @NotNull
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "CHECKING_ACCOUNT_ID")
     private CheckingAccount checkingAccount;
 
     public DateTime getDate() {
@@ -59,6 +58,14 @@ public class Movement extends AbstractPersistentObject {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public CheckingAccount getCheckingAccount() {
+        return checkingAccount;
+    }
+
+    public void setCheckingAccount(CheckingAccount checkingAccount) {
+        this.checkingAccount = checkingAccount;
     }
 
 }

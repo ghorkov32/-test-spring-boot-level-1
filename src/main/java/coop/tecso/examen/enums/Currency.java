@@ -16,7 +16,7 @@ public enum Currency {
     public static Currency getEnum(String value) {
         for(Currency v : values())
             if(v.toString().equalsIgnoreCase(value)) return v;
-        throw new IllegalArgumentException("Unknown currency");
+        throw new IllegalArgumentException("Moneda desconocida");
     }
 
     public static BigDecimal getLimit(Currency currency){
