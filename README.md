@@ -1,6 +1,10 @@
 [![Build Status](https://travis-ci.org/ghorkov32/-test-spring-boot-level-1.svg?branch=master)](https://travis-ci.org/ghorkov32/-test-spring-boot-level-1)
 [![Coverage Status](https://coveralls.io/repos/github/ghorkov32/-test-spring-boot-level-1/badge.svg?branch=master)](https://coveralls.io/github/ghorkov32/-test-spring-boot-level-1?branch=master)
 
+# Challenge tecso.coop
+
+## Documentación oficial
+
 Herramientas necesarias:
 
 	- GIT     ( Version homologada: 2.11.0 )
@@ -55,3 +59,19 @@ Workflow:
 	para revision de las soluciones implementadas.  
 	
 	- Asegurarse que los permisos de acceso al repositorio sean adecuados para que quien reciba la url pueda realizar el clonado.
+
+## CI, Code Coverage y deploy
+
+El CI se realiza con Travis CI (ver archivo .travis.yml), que determina para Coveralls.io el Code Coverage del proyecto.
+Se instaló Jacoco como dependencia necesaria para los builds que comunican el Code Coverage.
+El deploy se realiza desde la branch master hacia Heroku. 
+La URL de la API en Heroku es https://sb-tecso-examen.herokuapp.com/api
+Todas estas tareas se hacen de manera automatizada.
+
+## Seguimiento del proyecto
+
+Se puede ver el seguimiento del proyecto en el proyecto "Challenge" dentro de Github, en la pestaña "Projects".
+
+## Frontend
+
+El frontend estará deployado mediante Github pages. El repositorio del proyecto se puede encontrar [aquí](https://github.com/ghorkov32/test-tecso-frontend)
