@@ -1,15 +1,10 @@
 package coop.tecso.examen.model;
 
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
-import org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency;
-import org.joda.money.Money;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -66,11 +61,4 @@ public class Movement extends AbstractPersistentObject {
         this.amount = amount;
     }
 
-    public CheckingAccount getCheckingAccount() {
-        return checkingAccount;
-    }
-
-    public void setCheckingAccount(CheckingAccount checkingAccount) {
-        this.checkingAccount = checkingAccount;
-    }
 }

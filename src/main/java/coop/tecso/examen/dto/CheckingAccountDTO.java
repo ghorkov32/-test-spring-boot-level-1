@@ -2,12 +2,18 @@ package coop.tecso.examen.dto;
 
 import coop.tecso.examen.enums.Currency;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class CheckingAccountDTO {
     private Long id;
+    @NotNull
     private BigDecimal balance;
+    @NotNull
     private Currency currency;
+
+    public CheckingAccountDTO() {
+    }
 
     public Long getId() {
         return id;

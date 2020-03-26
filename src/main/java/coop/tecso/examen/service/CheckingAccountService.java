@@ -12,9 +12,15 @@ import java.util.NoSuchElementException;
 public interface CheckingAccountService {
 
     CheckingAccount createCheckingAccount(CheckingAccount checkingAccount);
+
     CheckingAccount findById(Long id) throws NoSuchElementException;
+
     List<CheckingAccount> findAll();
-    void addMovementToCheckingAccountById(Long id, Movement movement) throws NoSuchElementException;
+
+    void addMovementToCheckingAccountById(Long id, Movement movement)
+            throws NoSuchElementException, IllegalArgumentException;
+
     void deleteAccount(Long id) throws NoSuchElementException, IllegalStateException;
+
     List<Movement> getMovementsByCheckingAccountId(Long id) throws NoSuchElementException;
 }

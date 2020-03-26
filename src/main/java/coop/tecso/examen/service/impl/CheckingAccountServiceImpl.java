@@ -9,7 +9,6 @@ import coop.tecso.examen.service.CheckingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -46,7 +45,7 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
     @Override
     public CheckingAccount findById(Long id) throws NoSuchElementException {
         return checkingAccountRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Checking account not found"));
     }
 
     /**

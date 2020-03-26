@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 public class MovementMapperTest {
@@ -19,7 +19,7 @@ public class MovementMapperTest {
         DateTime dateTime = new DateTime();
         MovementDTO movementDTO = new MovementDTO();
         movementDTO.setAmount(BigDecimal.TEN);
-        movementDTO.setDate(dateTime);
+        movementDTO.setDate(dateTime.toDate());
         movementDTO.setDescription("ZZZ");
         movementDTO.setId(1L);
 
@@ -45,6 +45,6 @@ public class MovementMapperTest {
         assertEquals(BigDecimal.TEN, movementDTO.getAmount());
         assertEquals("ZZZ", movementDTO.getDescription());
         assertEquals(new Long(1), movementDTO.getId());
-        assertEquals(dateTime, movementDTO.getDate());
+        assertEquals(dateTime.toDate(), movementDTO.getDate());
     }
 }
