@@ -45,7 +45,7 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
     @Override
     public CheckingAccount findById(Long id) throws NoSuchElementException {
         return checkingAccountRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Checking account not found"));
+                .orElseThrow(() -> new NoSuchElementException("No se encontró la cuenta corriente"));
     }
 
     /**
@@ -71,9 +71,10 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
         if(checkingAccount.getMovements() == null)
             checkingAccount.setMovements(new ArrayList<>());
         checkingAccount.getMovements().add(movement);
+        movement.setCheckingAccount(checkingAccount);
         checkingAccount.setBalance(checkingAccount.getBalance().add(movement.getAmount()));
         if(checkingAccount.getBalance().compareTo(Currency.getLimit(checkingAccount.getCurrency())) <= 0)
-            throw new IllegalArgumentException("Movement amount surpasses overdraft limit");
+            throw new IllegalArgumentException("El movimiento supera el límite de sobregiro");
         checkingAccountRepository.save(checkingAccount);
     }
 
@@ -87,7 +88,7 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
     public void deleteAccount(Long id) throws NoSuchElementException, IllegalStateException {
         CheckingAccount checkingAccount = findById(id);
         if (checkingAccount.getMovements().size() > 0)
-            throw new IllegalStateException("Cannot delete accounts w/movements");
+            throw new IllegalStateException("La cuenta #" + checkingAccount.getId() + " no se puede borrar. Posee movimientos.");
         checkingAccountRepository.delete(checkingAccount);
     }
 

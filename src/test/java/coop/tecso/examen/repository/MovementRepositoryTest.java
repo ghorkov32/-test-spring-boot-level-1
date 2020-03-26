@@ -10,15 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.ConstraintViolationException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -32,37 +29,29 @@ public class MovementRepositoryTest {
 
 
     @Test
-    public void createMovementForCheckingAccountByRelationship(){
+    public void createMovementForCheckingAccountByRelationship() {
 
         CheckingAccount checkingAccount = new CheckingAccount();
         checkingAccount.setCurrency(Currency.ARS);
         checkingAccount.setMovements(new ArrayList<>());
         checkingAccount.setBalance(BigDecimal.ZERO);
 
+        CheckingAccount persisted = checkingAccountRepository.save(checkingAccount);
+
         Movement movement = new Movement();
         movement.setAmount(BigDecimal.TEN);
         movement.setDate(new DateTime());
         movement.setDescription("ZZZ");
-
 
         checkingAccount.getMovements().add(movement);
 
-        CheckingAccount persisted = checkingAccountRepository.save(checkingAccount);
+        persisted = checkingAccountRepository.save(persisted);
 
         assertEquals(1, persisted.getMovements().size());
-        assertEquals(movement, persisted.getMovements().get(0));
+        assertEquals(movement.getAmount(), persisted.getMovements().get(0).getAmount());
+        assertEquals(movement.getDate(), persisted.getMovements().get(0).getDate());
+        assertEquals(movement.getDescription(), persisted.getMovements().get(0).getDescription());
 
-    }
-
-    @Test(expected = ConstraintViolationException.class)
-    public void createMovementWithoutCheckingAccount(){
-
-        Movement movement = new Movement();
-        movement.setAmount(BigDecimal.TEN);
-        movement.setDate(new DateTime());
-        movement.setDescription("ZZZ");
-
-        movementsRepository.save(movement);
     }
 
     @Test
@@ -71,32 +60,36 @@ public class MovementRepositoryTest {
         checkingAccount.setCurrency(Currency.ARS);
         checkingAccount.setMovements(new ArrayList<>());
         checkingAccount.setBalance(BigDecimal.ZERO);
+        CheckingAccount persisted = checkingAccountRepository.save(checkingAccount);
 
         Movement movementA = new Movement();
         movementA.setAmount(BigDecimal.TEN);
         movementA.setDate(new DateTime());
         movementA.setDescription("ZZZ");
+        movementA.setCheckingAccount(persisted);
 
         Movement movementB = new Movement();
         movementB.setAmount(BigDecimal.TEN);
         movementB.setDate(new DateTime());
         movementB.setDescription("ZZZ");
+        movementB.setCheckingAccount(persisted);
 
         Movement movementC = new Movement();
         movementC.setAmount(BigDecimal.ONE);
         movementC.setDate(new DateTime());
         movementC.setDescription("ZZZ");
+        movementC.setCheckingAccount(persisted);
 
-        checkingAccount.getMovements().add(movementA);
-        checkingAccount.getMovements().add(movementB);
-        checkingAccount.getMovements().add(movementC);
+        persisted.getMovements().add(movementA);
+        persisted.getMovements().add(movementB);
+        persisted.getMovements().add(movementC);
 
         // Checking if @Order annotation works
-        CheckingAccount persisted = checkingAccountRepository.save(checkingAccount);
+        persisted = checkingAccountRepository.save(persisted);
         boolean isInOrder = true;
         Movement prev = null;
-        for( Movement elem : persisted.getMovements() ) {
-            if( prev != null && prev.getDate().isAfter(elem.getDate()) ) {
+        for (Movement elem : persisted.getMovements()) {
+            if (prev != null && prev.getDate().isAfter(elem.getDate())) {
                 isInOrder = isInOrder && prev.getDate().isAfter(elem.getDate());
             }
             prev = elem;
@@ -107,8 +100,8 @@ public class MovementRepositoryTest {
         // Checking if repository method works
         List<Movement> persistedMovements = movementsRepository.findAllByCheckingAccountOrderByDateDesc(persisted);
         prev = null;
-        for( Movement elem : persistedMovements ) {
-            if( prev != null && prev.getDate().isAfter(elem.getDate()) ) {
+        for (Movement elem : persistedMovements) {
+            if (prev != null && prev.getDate().isAfter(elem.getDate())) {
                 isInOrder = isInOrder && prev.getDate().isAfter(elem.getDate());
             }
             prev = elem;
@@ -116,7 +109,9 @@ public class MovementRepositoryTest {
 
         assertTrue(isInOrder);
 
-        assertEquals(movementA, persisted.getMovements().get(0));
+        assertEquals(movementA.getDate(), persisted.getMovements().get(0).getDate());
+        assertEquals(movementA.getDescription(), persisted.getMovements().get(0).getDescription());
+        assertEquals(movementA.getAmount(), persisted.getMovements().get(0).getAmount());
     }
 
 }

@@ -6,6 +6,7 @@ import coop.tecso.examen.enums.converter.CurrencyTypeConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,9 +27,9 @@ public class CheckingAccount extends AbstractPersistentObject {
     @Column(name = "BALANCE", columnDefinition="Decimal(12,2) default '0.00'")
     private BigDecimal balance;
 
-    @OneToMany(mappedBy = "checkingAccount", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "checkingAccount", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @OrderBy(value = "date desc")
-    private List<Movement> movements;
+    private List<Movement> movements = new ArrayList<Movement>();
 
     public Currency getCurrency() {
         return currency;
