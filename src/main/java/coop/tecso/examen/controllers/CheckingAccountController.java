@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:4200", "https://sb-tecso-examen-front.herokuapp.com"}, maxAge = 3600)
 @RestController
 @RequestMapping("/accounts")
 public class CheckingAccountController {
